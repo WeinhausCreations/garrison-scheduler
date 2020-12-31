@@ -4,11 +4,14 @@ import { makeStyles } from "@material-ui/core/styles";
 import { TextField, Button } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import InputMask from "react-input-mask";
+import useAPI from './../../../api/useAPI';
+
 
 const RegPage1 = (props) => {
     let history = useHistory();
+    let api = useAPI();
     const classes = useStyles();
-
+    
     const [firstName, setFirstName] = useState(props.firstName);
     const [lastName, setLastName] = useState(props.lastName);
     const [dodin, setDodin] = useState(props.dodin);
@@ -97,7 +100,7 @@ const RegPage1 = (props) => {
                 setDodinErrorText("DoD ID Numbers must contain 10 digits.");
             } else {
                 await fetch(
-                    "http://localhost:3500/gss/api/users/check?dodin=" + value
+                    `${api.host}${api.path}/users/check?dodin=${value}`
                 )
                     .then((res) => res.json())
                     .then((res) => {
@@ -119,7 +122,7 @@ const RegPage1 = (props) => {
                 setEmailErrorText("Please enter a valid email.");
             } else {
                 await fetch(
-                    "http://localhost:3500/gss/api/users/check?email=" + value
+                    `${api.host}${api.path}/users/check?email=${value}`
                 )
                     .then((res) => res.json())
                     .then((res) => {

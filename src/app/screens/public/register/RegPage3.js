@@ -3,9 +3,11 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { TextField, Button } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
+import useAPI from "../../../api/useAPI";
 
 const RegPage3 = (props) => {
     let history = useHistory();
+    let api = useAPI();
     const classes = useStyles();
 
     const [username, setUsername] = useState(props.username);
@@ -40,11 +42,12 @@ const RegPage3 = (props) => {
     };
 
     const validate = async (e) => {
+        props.sendToState({
+            username: username,
+            password: password,
+        });
         const { name, value } = e.target;
         if (name === "username") {
-            props.sendToState({
-                username: username,
-            });
             if (!value) {
                 setUsernameError(true);
                 setUsernameErrorText("You must enter a username.");
@@ -69,8 +72,7 @@ const RegPage3 = (props) => {
                     );
                 } else {
                     await fetch(
-                        "http://localhost:3500/gss/api/login/check?username=" +
-                            value
+                        `${api.host}${api.path}/login/check?username=${value}`
                     )
                         .then((res) => res.json())
                         .then((res) => {
@@ -88,9 +90,6 @@ const RegPage3 = (props) => {
             }
         }
         if (name === "password") {
-            props.sendToState({
-                password: password,
-            });
             if (value.length < 8) {
                 setPasswordError(true);
                 setPasswordErrorText(
