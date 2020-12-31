@@ -9,9 +9,11 @@ import {
     Select,
 } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
+import useAPI from './../../../api/useAPI';
 
 const RegPage2 = (props) => {
     let history = useHistory();
+    let api = useAPI();
     const classes = useStyles();
 
     const [association, setAssociation] = useState(props.association);

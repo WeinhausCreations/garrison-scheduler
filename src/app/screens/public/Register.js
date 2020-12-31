@@ -1,53 +1,51 @@
 /* eslint-disable no-useless-escape */
-import React from "react";
-import { withRouter, Switch, Route } from "react-router-dom";
-import useAPI from "./../../api/useAPI"
+import React, { useState } from "react";
+import { withRouter, Switch, Route, useRouteMatch } from "react-router-dom";
+import useAPI from "./../../api/useAPI";
 import RegPage1 from "./register/RegPage1";
 import RegPage2 from "./register/RegPage2";
 import RegPage3 from "./register/RegPage3";
+import { useHistory } from "react-router-dom";
 
-class Register extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            firstName: "",
-            lastName: "",
-            dodin: "",
-            email: "",
-            phone: "",
-            association: 0,
-            unit: "",
-            username: "",
-            password: "",
-        };
-    }
-    sendToState = (values) => {
-        this.setState(values);
+const Register = (props) => {
+    const [state, setState] = useState({
+        firstName: "",
+        lastName: "",
+        dodin: "",
+        email: "",
+        phone: "",
+        association: 0,
+        unit: "",
+        username: "",
+        password: "",
+    });
+    let api = useAPI();
+    let history = useHistory();
+    const sendToState = (values) => {
+        setState(values);
     };
 
-    submitRegistration = async () => {
+    const submitRegistration = async () => {
         if (
-            this.state.firstName &&
-            this.state.lastName &&
-            this.state.dodin &&
-            this.state.email &&
-            this.state.phone &&
-            this.state.association &&
-            this.state.username &&
-            this.state.password
+            state.firstName &&
+            state.lastName &&
+            state.dodin &&
+            state.email &&
+            state.phone &&
+            state.association &&
+            state.username &&
+            state.password
         ) {
             const body = {
-                dodin: this.state.dodin,
-                firstName: this.state.firstName,
-                lastName: this.state.lastName,
-                associationId: this.state.association,
-                email: this.state.email,
-                phone: parseInt(
-                    this.state.phone.replaceAll(/[\+\(\)-\s]/g, "")
-                ),
-                unit: this.state.unit,
-                username: this.state.username,
-                password: this.state.password,
+                dodin: state.dodin,
+                firstName: state.firstName,
+                lastName: state.lastName,
+                associationId: state.association,
+                email: state.email,
+                phone: parseInt(state.phone.replaceAll(/[\+\(\)-\s]/g, "")),
+                unit: state.unit,
+                username: state.username,
+                password: state.password,
             };
             console.log(body);
             const options = {
@@ -59,7 +57,7 @@ class Register extends React.Component {
                 .then((res) => res.json())
                 .then((res) => {
                     if (res.status === 200) {
-                        this.props.history.push('/registered');
+                        history.push("/registered");
                     } else {
                         alert(res.message);
                     }
@@ -71,44 +69,42 @@ class Register extends React.Component {
         }
     };
 
-    render() {
-        let { path } = this.props.match;
-        return (
-            <div>
-                <h2>Registration</h2>
-                <Switch>
-                    <Route exact path={path}>
-                        <RegPage1
-                            path={path}
-                            sendToState={this.sendToState}
-                            firstName={this.state.firstName}
-                            lastName={this.state.lastName}
-                            dodin={this.state.dodin}
-                            email={this.state.email}
-                            phone={this.state.phone}
-                        />
-                    </Route>
-                    <Route path={`${path}/2`}>
-                        <RegPage2
-                            path={path}
-                            sendToState={this.sendToState}
-                            association={this.state.association}
-                            unit={this.state.unit}
-                        />
-                    </Route>
-                    <Route path={`${path}/3`}>
-                        <RegPage3
-                            path={path}
-                            sendToState={this.sendToState}
-                            username={this.state.username}
-                            password={this.state.password}
-                            submitRegistration={this.submitRegistration}
-                        />
-                    </Route>
-                </Switch>
-            </div>
-        );
-    }
-}
+    let { path, url } = useRouteMatch();
+    return (
+        <div>
+            <h2>Registration</h2>
+            <Switch>
+                <Route exact path={path}>
+                    <RegPage1
+                        path={path}
+                        sendToState={sendToState}
+                        firstName={state.firstName}
+                        lastName={state.lastName}
+                        dodin={state.dodin}
+                        email={state.email}
+                        phone={state.phone}
+                    />
+                </Route>
+                <Route path={`${path}/2`}>
+                    <RegPage2
+                        path={path}
+                        sendToState={sendToState}
+                        association={state.association}
+                        unit={state.unit}
+                    />
+                </Route>
+                <Route path={`${path}/3`}>
+                    <RegPage3
+                        path={path}
+                        sendToState={sendToState}
+                        username={state.username}
+                        password={state.password}
+                        submitRegistration={submitRegistration}
+                    />
+                </Route>
+            </Switch>
+        </div>
+    );
+};
 
 export default withRouter(Register);
