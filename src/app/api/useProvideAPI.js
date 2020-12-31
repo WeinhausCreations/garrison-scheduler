@@ -2,7 +2,7 @@ import { useState } from "react";
 
 const useProvideAPI = () => {
     // website default
-    const defaultHost = "https://garrisionscheduler.com";
+    const defaultHost = "https://garrisonscheduler.com";
     const defaultPath = "/api";
 
     // // localhost default
