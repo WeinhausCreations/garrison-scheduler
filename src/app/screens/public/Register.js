@@ -1,6 +1,7 @@
 /* eslint-disable no-useless-escape */
 import React from "react";
 import { withRouter, Switch, Route } from "react-router-dom";
+import useAPI from "./../../api/useAPI"
 import RegPage1 from "./register/RegPage1";
 import RegPage2 from "./register/RegPage2";
 import RegPage3 from "./register/RegPage3";
@@ -54,7 +55,7 @@ class Register extends React.Component {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body),
             };
-            fetch("http://localhost:3500/gss/api/register/self", options)
+            fetch(`${api.host}${api.path}/register/self`, options)
                 .then((res) => res.json())
                 .then((res) => {
                     if (res.status === 200) {

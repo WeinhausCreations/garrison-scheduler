@@ -6,11 +6,7 @@ import { Button } from "@material-ui/core";
 const Home = () => {
     const auth = useAuth();
     // auth.validate();
-    const checkCookie = async () => {
-        fetch("http://localhost:3500/gss/api/checkcookie")
-            .then((res) => res.json())
-            .then((res) => alert(res));
-    };
+
     return (
         <div>
             <h2 className="intro-text">Welcome!</h2>
