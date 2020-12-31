@@ -7,6 +7,7 @@ import {
     FormControl,
     InputLabel,
     Select,
+    FormHelperText
 } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import useAPI from './../../../api/useAPI';
@@ -114,11 +115,11 @@ const RegPage2 = (props) => {
                     }}
                     onBlur={validate}
                     error={associationError}
-                    helperText={associationErrorText}
                 >
                     <option value="0">Select</option>
                     <option value="1">Active Duty</option>
                 </Select>
+                <FormHelperText>{associationErrorText}</FormHelperText>
             </FormControl>
             <TextField
                 required={!disabled}

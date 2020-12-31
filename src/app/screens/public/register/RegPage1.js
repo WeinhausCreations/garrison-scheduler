@@ -11,7 +11,7 @@ const RegPage1 = (props) => {
     let history = useHistory();
     let api = useAPI();
     const classes = useStyles();
-
+    
     const [firstName, setFirstName] = useState(props.firstName);
     const [lastName, setLastName] = useState(props.lastName);
     const [dodin, setDodin] = useState(props.dodin);

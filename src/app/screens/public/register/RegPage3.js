@@ -42,11 +42,12 @@ const RegPage3 = (props) => {
     };
 
     const validate = async (e) => {
+        props.sendToState({
+            username: username,
+            password: password,
+        });
         const { name, value } = e.target;
         if (name === "username") {
-            props.sendToState({
-                username: username,
-            });
             if (!value) {
                 setUsernameError(true);
                 setUsernameErrorText("You must enter a username.");
@@ -89,9 +90,6 @@ const RegPage3 = (props) => {
             }
         }
         if (name === "password") {
-            props.sendToState({
-                password: password,
-            });
             if (value.length < 8) {
                 setPasswordError(true);
                 setPasswordErrorText(
