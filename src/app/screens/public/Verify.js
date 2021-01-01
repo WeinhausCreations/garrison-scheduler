@@ -19,7 +19,7 @@ class Verify extends React.Component {
         let search = window.location.search;
         let params = new URLSearchParams(search);
         let code = params.get("code");
-        fetch("http://localhost:3500/gss/api/verify?code=" + code)
+        fetch(`${api.host}${api.path}/verify?code=${code}`)
             .then((res) => res.json())
             .then((res) => {
                 this.setState({ response: res.response, message: res.message });

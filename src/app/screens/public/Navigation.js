@@ -53,6 +53,10 @@ const Navigation = () => {
         if (open) toggleDrawerOpen();
         history.push("/scheduler");
     };
+    const routeRegister = () => {
+        if (open) toggleDrawerOpen();
+        history.push("/register");
+    };
     const routeAppointments = () => {
         if (open) toggleDrawerOpen();
         history.push("/appointments");
@@ -104,6 +108,12 @@ const Navigation = () => {
             <ListItemText primary="Login" />
         </ListItem>
     );
+    
+    const registerNav = (
+        <ListItem button key="Register" onClick={routeRegister}>
+            <ListItemText primary="Register" />
+        </ListItem>
+    );
 
     const logoutNav = (
         <ListItem button key="Logout" onClick={() => logout()}>
@@ -120,6 +130,7 @@ const Navigation = () => {
                 <ListItemText primary="Scheduler" />
             </ListItem>
             {auth.user ? logoutNav : loginNav}
+            {auth.user ? null : registerNav}
         </List>
     );
 
