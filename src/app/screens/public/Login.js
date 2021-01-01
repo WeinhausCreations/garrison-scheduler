@@ -14,7 +14,6 @@ const Login = () => {
 
     let login = () => {
         auth.signin(() => {
-            console.log("history replace");
             history.replace(from);
         });
     };
@@ -22,11 +21,9 @@ const Login = () => {
         history.push("/forgot");
     };
     useMountEffect(() => {
-        console.log(from);
         let validate = () => {
             auth.validate(() => {
-                console.log("history push?");
-                history.push(from);
+                history.replace(from);
             });
         };
         validate();

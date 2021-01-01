@@ -33,6 +33,10 @@ const Navigation = () => {
         setOpen(!open);
     };
 
+    const routeHome = () => {
+        if (open) toggleDrawerOpen();
+        history.push("/home");
+    };
     const routeLogin = () => {
         if (open) toggleDrawerOpen();
         history.push("/login");
@@ -64,7 +68,7 @@ const Navigation = () => {
     const logout = () => {
         auth.signout();
         if (open) toggleDrawerOpen();
-    }
+    };
 
     const profile = (
         <div>
@@ -94,7 +98,11 @@ const Navigation = () => {
 
     const userNav = (
         <List>
-            <ListItem button key="My Appointments" onClick={() => routeAppointments()}>
+            <ListItem
+                button
+                key="My Appointments"
+                onClick={() => routeAppointments()}
+            >
                 <ListItemText primary="My Appointments" />
             </ListItem>
             <ListItem button key="My Profile" onClick={() => routeProfile()}>
@@ -108,7 +116,7 @@ const Navigation = () => {
             <ListItemText primary="Login" />
         </ListItem>
     );
-    
+
     const registerNav = (
         <ListItem button key="Register" onClick={routeRegister}>
             <ListItemText primary="Register" />
@@ -123,6 +131,9 @@ const Navigation = () => {
 
     const alwaysNav = (
         <List>
+            <ListItem button key="Home" onClick={() => routeHome()}>
+                <ListItemText primary="Home" />
+            </ListItem>
             <ListItem button key="About" onClick={() => routeAbout()}>
                 <ListItemText primary="About" />
             </ListItem>

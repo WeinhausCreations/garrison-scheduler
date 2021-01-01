@@ -7,13 +7,15 @@ import {
     FormControl,
     InputLabel,
     Select,
-    FormHelperText
+    FormHelperText,
 } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
+import useAPI from "./../../../api/useAPI";
 
 const RegPage2 = (props) => {
     let history = useHistory();
     const classes = useStyles();
+    let api = useAPI();
 
     const [association, setAssociation] = useState(props.association);
     const [unit, setUnit] = useState(props.unit);
@@ -22,6 +24,7 @@ const RegPage2 = (props) => {
     const [unitError, setUnitError] = useState(false);
     const [associationErrorText, setAssociationErrorText] = useState("");
     const [unitErrorText, setUnitErrorText] = useState("");
+    const [associationList, setAssociationList] = useState([]);
 
     const goToPage1 = () => {
         props.sendToState({
@@ -46,13 +49,18 @@ const RegPage2 = (props) => {
     };
 
     useEffect(() => {
+        fetch(`${api.host}${api.path}/association`)
+            .then((res) => res.json())
+            .then((res) => {
+                setAssociationList(res);
+            });
         if (association >= 1 && association <= 4) {
             setDisabled(false);
         } else {
             setDisabled(true);
             setUnit("");
         }
-    }, [association]);
+    }, [api, association]);
 
     const validate = (e) => {
         const { name, value } = e.target;
@@ -92,6 +100,8 @@ const RegPage2 = (props) => {
         }
     };
 
+    const associationOptions = associationList.map(item => <option key={`association_${item.id}`} value={item.id}>{item.name}</option>)
+
     return (
         <div className={classes.root}>
             <h3>Military Information</h3>
@@ -115,7 +125,7 @@ const RegPage2 = (props) => {
                     error={associationError}
                 >
                     <option value="0">Select</option>
-                    <option value="1">Active Duty</option>
+                    {associationOptions}
                 </Select>
                 <FormHelperText>{associationErrorText}</FormHelperText>
             </FormControl>

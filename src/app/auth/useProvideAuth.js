@@ -55,7 +55,6 @@ const useProvideAuth = () => {
             .then((res) => res.json())
             .then((res) => {
                 if (res.status === 200) {
-                    console.log(res)
                     setUser(res.userId);
                     setAdmin(res.admin);
                     setUsername(res.username);
