@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import useAuth from "./../../auth/useAuth";
 import { makeStyles } from "@material-ui/core/styles";
@@ -8,20 +8,29 @@ const Login = () => {
     let history = useHistory();
     let location = useLocation();
     let auth = useAuth();
-
-    auth.validate(() => {
-        history.replace(from);
-    });
     let { from } = location.state || { from: { pathname: "/" } };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const useMountEffect = (func) => useEffect(func, []);
+
     let login = () => {
-        console.log(from);
         auth.signin(() => {
+            console.log("history replace");
             history.replace(from);
         });
     };
     let forgotPassword = () => {
         history.push("/forgot");
     };
+    useMountEffect(() => {
+        console.log(from);
+        let validate = () => {
+            auth.validate(() => {
+                console.log("history push?");
+                history.push(from);
+            });
+        };
+        validate();
+    });
 
     return (
         <div>

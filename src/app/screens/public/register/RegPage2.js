@@ -10,11 +10,9 @@ import {
     FormHelperText
 } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
-import useAPI from './../../../api/useAPI';
 
 const RegPage2 = (props) => {
     let history = useHistory();
-    let api = useAPI();
     const classes = useStyles();
 
     const [association, setAssociation] = useState(props.association);
@@ -54,7 +52,7 @@ const RegPage2 = (props) => {
             setDisabled(true);
             setUnit("");
         }
-    });
+    }, [association]);
 
     const validate = (e) => {
         const { name, value } = e.target;
