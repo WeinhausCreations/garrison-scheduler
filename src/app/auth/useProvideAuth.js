@@ -1,7 +1,9 @@
 import { useState } from "react";
-import Cookies from "js-cookie";
+import useAPI from './../api/useAPI';
 
 const useProvideAuth = () => {
+    const api = useAPI();
+
     const [user, setUser] = useState(null);
     const [admin, setAdmin] = useState(null);
     const [username, setUsername] = useState("");
@@ -20,12 +22,12 @@ const useProvideAuth = () => {
             body: JSON.stringify(body),
         };
         console.log(options);
-        fetch("http://localhost:3500/gss/api/login/", options)
+        fetch(`${api.host}${api.path}/login/`, options)
             .then((res) => res.json())
             .then((res) => {
                 if (res.status === 200) {
                     setPassword("");
-                    setUser(res.user);
+                    setUser(res.userId);
                     setAdmin(res.admin);
                     cb();
                 } else {
@@ -35,7 +37,7 @@ const useProvideAuth = () => {
     };
 
     const signout = async () => {
-        fetch("http://localhost:3500/gss/api/logout/")
+        fetch(`${api.host}${api.path}/logout/`)
             .then((res) => res.json())
             .then((res) => {
                 if (res.status === 200) {
@@ -49,12 +51,14 @@ const useProvideAuth = () => {
     };
 
     const validate = async (cb) => {
-        fetch("http://localhost:3500/gss/api/validate/")
+        fetch(`${api.host}${api.path}/validate/`)
             .then((res) => res.json())
             .then((res) => {
                 if (res.status === 200) {
-                    setUser(res.user);
+                    console.log(res)
+                    setUser(res.userId);
                     setAdmin(res.admin);
+                    setUsername(res.username);
                     cb();
                 } else {
                     console.log(res.message);
