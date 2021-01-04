@@ -9,6 +9,7 @@ const useProvideAuth = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [remember, setRemember] = useState(false);
+    const [servicesAdmin, setServicesAdmin] = useState([])
 
     const signin = async (cb) => {
         const body = {
@@ -75,12 +76,14 @@ const useProvideAuth = () => {
         username,
         password,
         remember,
+        servicesAdmin,
         signin,
         signout,
         validate,
         setUsername,
         setPassword,
         setRemember,
+        setServicesAdmin,
     };
 };
 

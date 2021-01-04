@@ -1,41 +1,28 @@
-import { List, ListItem, ListItemText } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import useAPI from "./../../../api/useAPI";
+import { Route, Switch, useRouteMatch } from "react-router-dom";
+import Selector from "./dashboard/Selector";
+import FrontDesk from "./dashboard/FrontDesk";
+import Administration from "./dashboard/Administration";
+import { useState } from 'react';
+// import DashRoute from './dashboard/DashRoute';
 
 const Dashboard = () => {
-    const history = useHistory();
-    const api = useAPI();
-
-    const [serviceList, setServiceList] = useState([]);
-
-    useEffect(() => {
-        fetch(`${api.host}${api.path}/dashboard`)
-            .then((res) => res.json())
-            .then((res) => setServiceList(res));
-    });
-
-    const route = () => {
-
-    }
-
-    const serviceItems = serviceList.map(item => (
-        <ListItem
-        button
-        key={item.name+item.location}
-        onClick={() => route()}
-        >
-            <ListItemText primary={item.name} />
-        </ListItem>
-    ))
+    let { path } = useRouteMatch();
+    const [serviceName, setServiceName] = useState("");
 
     return (
         <div>
-            <h2>Admin Dashboard</h2>
-            <p>Select a service</p>
-            <List>
-                {serviceItems}
-            </List>
+            <h2>Service Dashboard</h2>
+            <Switch>
+                <Route exact path={path}>
+                    <Selector path={path} setServiceName={setServiceName} />
+                </Route>
+                <Route path={`${path}/:id/frontdesk`} serviceName={serviceName}>
+                    <FrontDesk path={path} serviceName={serviceName} />
+                </Route>
+                <Route path={`${path}/:id/administration`} serviceName={serviceName}>
+                    <Administration path={path} serviceName={serviceName} />
+                </Route>
+            </Switch>
         </div>
     );
 };
