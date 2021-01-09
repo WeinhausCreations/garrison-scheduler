@@ -3,6 +3,7 @@ import socketIOClient from "socket.io-client";
 import React, { useEffect, useState } from "react";
 import useAPI from './../../../../../api/useAPI';
 import Upcoming from './Upcoming';
+import Occupancy from './Occupancy';
 
 const Display = (props) => {
     const api = useAPI();
@@ -30,6 +31,7 @@ const Display = (props) => {
             <h3>Service Display - {props.sectionName}</h3>
             <Upcoming reservations={state.upcoming} />
             <CheckedIn reservations={state.checkedIn} />
+            <Occupancy />
         </div>
     );
 };
