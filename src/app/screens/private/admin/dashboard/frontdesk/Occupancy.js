@@ -1,6 +1,7 @@
 import { Container, Typography } from "@material-ui/core";
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { Line } from "react-chartjs-2";
+import useAPI from './../../../../../api/useAPI';
 
 const data = {
     labels: [
@@ -40,6 +41,13 @@ const options = {
 };
 
 const Occupancy = (props) => {
+    const [max, setMax] = useState(0);
+    const [current, setCurrent] = useState(0);
+    const [timeline, setTimeline] = useState({labels: [], data: []})
+    const [closed, setClosed] = useState(true);
+
+    
+
     return (
         <Container>
             <Typography variant="h4">Current Occupancy:</Typography>
