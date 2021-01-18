@@ -1,10 +1,11 @@
 import { useParams, Link } from "react-router-dom";
 
 const Administration = (props) => {
-    let { id } = useParams();
+    let serviceId = sessionStorage.getItem("serviceId")
+    let serviceName = sessionStorage.getItem("serviceName")
     return (
         <div>
-            <h2>Administration - {props.serviceName}</h2>
+            <h2>Administration - {serviceName}</h2>
             <Link to={`${props.path}`}>Back to Dashboard</Link>
         </div>
     );

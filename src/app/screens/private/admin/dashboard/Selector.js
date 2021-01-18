@@ -6,6 +6,7 @@ import {
     AccordionDetails,
     AccordionSummary,
     Typography,
+    Container,
 } from "@material-ui/core";
 import useAPI from "./../../../../api/useAPI";
 import useAuth from "./../../../../auth/useAuth";
@@ -15,11 +16,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 const Selector = (props) => {
+    let classes = useStyles();
     const history = useHistory();
     const auth = useAuth();
     const api = useAPI();
     const [serviceList, setServiceList] = useState([]);
-    const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
 
     const handleChange = (panel) => (event, isExpanded) => {
@@ -37,15 +38,18 @@ const Selector = (props) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const route = (route, name) => {
-        props.setServiceName(name);
-        history.push(`${props.path}/${route}`);
+    const route = (id, name, destination, destinationName) => {
+        sessionStorage.setItem("serviceId", id);
+        sessionStorage.setItem("serviceName", name);
+        sessionStorage.setItem("destination", destinationName);
+        history.push(`${props.path}/${id}/${destination}`);
     };
 
     const serviceItems = serviceList.map((item) => (
         <Accordion
             expanded={expanded === `panel${item.id}`}
             onChange={handleChange(`panel${item.id}`)}
+            key={`accordion-${item.id}`}
         >
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
@@ -58,19 +62,21 @@ const Selector = (props) => {
                 </Typography>
             </AccordionSummary>
             <AccordionDetails id={`panel${item.id}bh-details`}>
-                <List>
+                <List className={classes.accordionList}>
                     <ListItem
                         button
+                        className={classes.listItem}
                         key={`${item.id}-fd`}
-                        onClick={() => route(`${item.id}/frontdesk`, item.name)}
+                        onClick={() => route(item.id, item.name, "frontdesk", "Front Desk")}
                     >
                         <ListItemText primary={`Front Desk`} />
                     </ListItem>
                     <ListItem
                         button
+                        className={classes.listItem}
                         key={`${item.id}-admin`}
                         onClick={() =>
-                            route(`${item.id}/administration`, item.name)
+                            route(item.id, item.name, "administration", "Administration")
                         }
                     >
                         <ListItemText primary={`Service Administration`} />
@@ -81,10 +87,9 @@ const Selector = (props) => {
     ));
 
     return (
-        <div>
-            <p>Select a service</p>
+        <Container className={classes.selectContainer}>
             {serviceItems}
-        </div>
+        </Container>
     );
 };
 
@@ -100,6 +105,16 @@ const useStyles = makeStyles((theme) => ({
     secondaryHeading: {
         fontSize: theme.typography.pxToRem(15),
         color: theme.palette.text.secondary,
+    },
+    accordionList: {
+        display: "flex",
+        flexFlow: "rows wrap",
+    },
+    listItem: {
+        width: 200,
+    },
+    selectContainer: {
+        maxWidth: 800,
     },
 }));
 

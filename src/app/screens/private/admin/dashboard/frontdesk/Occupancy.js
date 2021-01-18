@@ -1,61 +1,64 @@
 import { Container, Typography } from "@material-ui/core";
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
-import useAPI from './../../../../../api/useAPI';
-
-const data = {
-    labels: [
-        "08:00",
-        "09:00",
-        "10:00",
-        "11:00",
-        "12:00",
-        "13:00",
-        "14:00",
-        "15:00",
-        "16:00",
-        "17:00",
-    ],
-    datasets: [
-        {
-            label: "Reserved Occupancy",
-            data: [7, 10, 12, 14, 6, 8, 30, 25, 9, 0],
-            fill: true,
-            backgroundColor: "rgb(255, 99, 132)",
-            borderColor: "rgba(255, 99, 132, 0.2)",
-        },
-    ],
-};
-
-const options = {
-    scales: {
-        yAxes: [
-            {
-                ticks: {
-                    beginAtZero: true,
-                    max: 50
-                },
-            },
-        ],
-    },
-};
+import useAPI from "./../../../../../api/useAPI";
+import { makeStyles } from "@material-ui/core/styles";
 
 const Occupancy = (props) => {
-    const [max, setMax] = useState(0);
-    const [current, setCurrent] = useState(0);
-    const [timeline, setTimeline] = useState({labels: [], data: []})
-    const [closed, setClosed] = useState(true);
+    let classes = useStyles();
+    const sectionId = sessionStorage.getItem("sectionId");
+    const api = useAPI();
+    const current = props.checkedIn.length;
+    const [chartData, setChartData] = useState({ timeSlot: [], occupancy: [] });
+    useEffect(() => {
+        fetch(
+            `${api.host}${api.path}/dashboard/section/${sectionId}/occupancy/future`
+        )
+            .then((res) => res.json())
+            .then((res) => {
+                setChartData(res);
+                console.log(chartData);
+            });
+    }, []);
 
-    
+    const data = {
+        labels: chartData.timeSlot,
+        datasets: [
+            {
+                label: "Reservations",
+                data: chartData.occupancy,
+                fill: true,
+                backgroundColor: "rgb(152, 189, 211, 0.5)",
+                borderColor: "rgba(0, 90, 143, 1)",
+            },
+        ],
+    };
+    const options = {
+        scales: {
+            yAxes: [
+                {
+                    ticks: {
+                        beginAtZero: true,
+                        max: 50,
+                    },
+                },
+            ],
+        },
+    };
 
     return (
-        <Container>
-            <Typography variant="h4">Current Occupancy:</Typography>
-            <Typography variant="h3">4</Typography>
-            <Typography variant="h4">Expected Occupancy:</Typography>
+        <Container className={classes.occupancyContainer}>
+            <Typography variant="h3">Current Occupancy: {current}</Typography>
             <Line data={data} options={options} />
         </Container>
     );
 };
+
+const useStyles = makeStyles((theme) => ({
+    occupancyContainer: {
+        height: 420,
+        padding: 0,
+    },
+}));
 
 export default Occupancy;

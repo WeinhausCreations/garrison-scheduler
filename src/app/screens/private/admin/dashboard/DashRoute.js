@@ -1,12 +1,12 @@
 import { Redirect, Route } from "react-router-dom";
 
 const DashRoute = ({ children, ...rest }) => {
-    let serviceName = rest.serviceName;
+    let serviceId = sessionStorage.getItem("serviceId");
     return (
         <Route
             {...rest}
             render={({ location }) =>
-                serviceName ? (
+                serviceId > 0 ? (
                     children
                 ) : (
                     <Redirect to={{ pathname: "/dashboard" }} />
