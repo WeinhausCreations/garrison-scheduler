@@ -167,7 +167,7 @@ const Navigation = () => {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" className={classes.title}>
+                    <Typography variant="h2" className={classes.title}>
                         Garrison Scheduler
                     </Typography>
                     {auth.user ? profile : login}

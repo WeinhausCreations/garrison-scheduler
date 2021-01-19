@@ -10,7 +10,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Display from "./frontdesk/Display";
-import OptionButtons from './frontdesk/OptionButtons';
+import OptionButtons from "./frontdesk/OptionButtons";
 
 const FrontDesk = (props) => {
     let serviceId = sessionStorage.getItem("serviceId");
@@ -38,9 +38,9 @@ const FrontDesk = (props) => {
                     history.replace(props.path);
                 }
                 setSectionList(res);
-                setSection(res[0].id);
-                sessionStorage.setItem("sectionId", res[0].id);
-                sessionStorage.setItem("sectionName", res[0].name);
+                // setSection(res[0].id);
+                // sessionStorage.setItem("sectionId", res[0].id);
+                // sessionStorage.setItem("sectionName", res[0].name);
             });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [api, serviceId]);
@@ -83,8 +83,7 @@ const FrontDesk = (props) => {
                     ) : null}
                 </Grid>
                 <Grid item xs={12}>
-            {sessionStorage.getItem("sectionId") ? <Display /> : null}
-
+                    {sessionStorage.getItem("sectionId") ? <Display /> : null}
                 </Grid>
             </Grid>
         </div>
@@ -94,7 +93,7 @@ const FrontDesk = (props) => {
 const useStyles = makeStyles((theme) => ({
     formControl: {
         margin: theme.spacing(1),
-        minWidth: 120,
+        width: '85%'
     },
     selectEmpty: {
         marginTop: theme.spacing(2),

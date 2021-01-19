@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import useAuth from "./../../auth/useAuth";
-import { Button } from "@material-ui/core";
+import { Button, Container } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const Home = () => {
@@ -11,11 +11,11 @@ const Home = () => {
     let adminMsg = auth.admin ? "Hello Admin" : "Not logged in";
     console.log(auth);
     return (
-        <div>
+        <Container>
             <h2 className="intro-text">Welcome!</h2>
             <p>{userMsg}</p>
             <p>{adminMsg}</p>
-        </div>
+        </Container>
     );
 };
 

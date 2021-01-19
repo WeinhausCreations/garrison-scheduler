@@ -140,14 +140,16 @@ const RegPage1 = (props) => {
         }
         if (name === "phone") {
             const phoneNum = parseInt(value.replaceAll(/[\+\(\)-\s]/g, ""));
-            if (!phoneNum.length === 10) {
+            if (phoneNum.toString().length < 10) {
                 setPhoneError(true);
                 setPhoneErrorText(
                     "Please enter a valid, 10-digit phone number."
                 );
+                console.log("err")
             } else {
                 setPhoneError(false);
                 setPhoneErrorText("");
+                console.log("no err")
             }
         }
     };

@@ -44,12 +44,15 @@ const Occupancy = (props) => {
                 },
             ],
         },
+        maintainAspectRatio: false,
     };
 
     return (
         <Container className={classes.occupancyContainer}>
             <Typography variant="h3">Current Occupancy: {current}</Typography>
-            <Line data={data} options={options} />
+            <div className={classes.lineChart}>
+                <Line data={data} options={options} height={400} />
+            </div>
         </Container>
     );
 };
@@ -58,6 +61,9 @@ const useStyles = makeStyles((theme) => ({
     occupancyContainer: {
         height: 420,
         padding: 0,
+    },
+    lineChart: {
+        maxHeight: 350,
     },
 }));
 

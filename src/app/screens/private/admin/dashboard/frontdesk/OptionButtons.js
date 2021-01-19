@@ -11,6 +11,7 @@ import {
     TextField,
 } from "@material-ui/core";
 import useAPI from "./../../../../../api/useAPI";
+import AddNewUserDialog from './AddNewUserDialog';
 
 const OptionButtons = () => {
     const api = useAPI();
@@ -49,6 +50,11 @@ const OptionButtons = () => {
         setDialogBox({ newUser: false, userLookup: false });
     };
 
+    
+    const checkInUser = (userId, start, lastName) => {
+        
+    }
+
     return (
         <div>
             <Grid container spacing={1}>
@@ -71,157 +77,7 @@ const OptionButtons = () => {
                     </Button>
                 </Grid>
             </Grid>
-            <Dialog
-                open={dialogBox.newUser}
-                onClose={handleClose}
-                aria-labelledby="form-dialog-title"
-            >
-                <DialogTitle id="form-dialog-title">Add New User</DialogTitle>
-                <DialogContent>
-                    <Grid container spacing={1}>
-                        <Grid item xs={4}>
-                            <TextField
-                                autoFocus
-                                id="dodin"
-                                name="dodin"
-                                label="DoD ID Number"
-                                type="number"
-                                variant="outlined"
-                                value={newUser.dodin}
-                                onChange={(e) =>
-                                    setNewUser({
-                                        ...newUser,
-                                        [e.target.name]: e.target.value,
-                                    })
-                                }
-                            />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <TextField
-                                id="firstName"
-                                name="firstName"
-                                label="First Name"
-                                type="text"
-                                variant="outlined"
-                                value={newUser.firstName}
-                                onChange={(e) =>
-                                    setNewUser({
-                                        ...newUser,
-                                        [e.target.name]: e.target.value,
-                                    })
-                                }
-                            />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <TextField
-                                id="lastName"
-                                name="lastName"
-                                label="First Name"
-                                type="text"
-                                variant="outlined"
-                                value={newUser.lastName}
-                                onChange={(e) =>
-                                    setNewUser({
-                                        ...newUser,
-                                        [e.target.name]: e.target.value,
-                                    })
-                                }
-                            />
-                        </Grid>
-                        <Grid item xs={8}>
-                            <TextField
-                                autoFocus
-                                id="email"
-                                name="email"
-                                label="Email"
-                                type="email"
-                                variant="outlined"
-                                value={newUser.email}
-                                onChange={(e) =>
-                                    setNewUser({
-                                        ...newUser,
-                                        [e.target.name]: e.target.value,
-                                    })
-                                }
-                            />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <TextField
-                                autoFocus
-                                id="phone"
-                                name="phone"
-                                label="Phone Number"
-                                type="number"
-                                variant="outlined"
-                                value={newUser.phone}
-                                onChange={(e) =>
-                                    setNewUser({
-                                        ...newUser,
-                                        [e.target.name]: e.target.value,
-                                    })
-                                }
-                            />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <TextField
-                                autoFocus
-                                id="association"
-                                name="associationId"
-                                label="Association"
-                                type="number"
-                                variant="outlined"
-                                value={newUser.associationId}
-                                onChange={(e) =>
-                                    setNewUser({
-                                        ...newUser,
-                                        [e.target.name]: e.target.value,
-                                    })
-                                }
-                            />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <TextField
-                                autoFocus
-                                id="unit"
-                                name="unit"
-                                label="Unit"
-                                type="text"
-                                variant="outlined"
-                                value={newUser.unit}
-                                onChange={(e) =>
-                                    setNewUser({
-                                        ...newUser,
-                                        [e.target.name]: e.target.value,
-                                    })
-                                }
-                            />
-                        </Grid>
-                    </Grid>
-                </DialogContent>
-                <DialogActions>
-                    <Button
-                        onClick={handleClose}
-                        variant="contained"
-                        color="primary"
-                    >
-                        Cancel
-                    </Button>
-                    <Button
-                        onClick={handleClose}
-                        variant="contained"
-                        color="primary"
-                    >
-                        Add
-                    </Button>
-                    <Button
-                        onClick={handleClose}
-                        variant="contained"
-                        color="primary"
-                    >
-                        Add and Check In
-                    </Button>
-                </DialogActions>
-            </Dialog>
+            <AddNewUserDialog handleClose={handleClose} open={dialogBox.newUser} />
         </div>
     );
 };
