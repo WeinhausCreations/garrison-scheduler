@@ -6,8 +6,12 @@ import RegPage1 from "./register/RegPage1";
 import RegPage2 from "./register/RegPage2";
 import RegPage3 from "./register/RegPage3";
 import { useHistory } from "react-router-dom";
+import { Container, CssBaseline } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import { Typography } from '@material-ui/core';
 
 const Register = (props) => {
+    const classes = useStyles();
     const [state, setState] = useState({
         firstName: "",
         lastName: "",
@@ -21,9 +25,9 @@ const Register = (props) => {
     });
     let api = useAPI();
     let history = useHistory();
-    
+
     const sendToState = (values) => {
-        setState({...state, ...values});
+        setState({ ...state, ...values });
     };
 
     const submitRegistration = async () => {
@@ -72,40 +76,52 @@ const Register = (props) => {
 
     let { path } = useRouteMatch();
     return (
-        <div>
-            <h2>Registration</h2>
-            <Switch>
-                <Route exact path={path}>
-                    <RegPage1
-                        path={path}
-                        sendToState={sendToState}
-                        firstName={state.firstName}
-                        lastName={state.lastName}
-                        dodin={state.dodin}
-                        email={state.email}
-                        phone={state.phone}
-                    />
-                </Route>
-                <Route path={`${path}/2`}>
-                    <RegPage2
-                        path={path}
-                        sendToState={sendToState}
-                        association={state.association}
-                        unit={state.unit}
-                    />
-                </Route>
-                <Route path={`${path}/3`}>
-                    <RegPage3
-                        path={path}
-                        sendToState={sendToState}
-                        username={state.username}
-                        password={state.password}
-                        submitRegistration={submitRegistration}
-                    />
-                </Route>
-            </Switch>
-        </div>
+        <Container component="main" maxWidth="xs">
+            <CssBaseline />
+            <div className={classes.paper}>
+                <Typography component="h1" variant="h2">Registration</Typography>
+                <Switch>
+                    <Route exact path={path}>
+                        <RegPage1
+                            path={path}
+                            sendToState={sendToState}
+                            firstName={state.firstName}
+                            lastName={state.lastName}
+                            dodin={state.dodin}
+                            email={state.email}
+                            phone={state.phone}
+                        />
+                    </Route>
+                    <Route path={`${path}/2`}>
+                        <RegPage2
+                            path={path}
+                            sendToState={sendToState}
+                            association={state.association}
+                            unit={state.unit}
+                        />
+                    </Route>
+                    <Route path={`${path}/3`}>
+                        <RegPage3
+                            path={path}
+                            sendToState={sendToState}
+                            username={state.username}
+                            password={state.password}
+                            submitRegistration={submitRegistration}
+                        />
+                    </Route>
+                </Switch>
+            </div>
+        </Container>
     );
 };
+
+const useStyles = makeStyles((theme) => ({
+    paper: {
+        marginTop: theme.spacing(8),
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+    },
+}));
 
 export default withRouter(Register);

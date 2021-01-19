@@ -1,17 +1,16 @@
 /* eslint-disable no-useless-escape */
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { TextField, Button } from "@material-ui/core";
+import { TextField, Button, Grid, Typography } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import InputMask from "react-input-mask";
-import useAPI from './../../../api/useAPI';
-
+import useAPI from "./../../../api/useAPI";
 
 const RegPage1 = (props) => {
     let history = useHistory();
     let api = useAPI();
     const classes = useStyles();
-    
+
     const [firstName, setFirstName] = useState(props.firstName);
     const [lastName, setLastName] = useState(props.lastName);
     const [dodin, setDodin] = useState(props.dodin);
@@ -99,9 +98,7 @@ const RegPage1 = (props) => {
                 setDodinError(true);
                 setDodinErrorText("DoD ID Numbers must contain 10 digits.");
             } else {
-                await fetch(
-                    `${api.host}${api.path}/users/check?dodin=${value}`
-                )
+                await fetch(`${api.host}${api.path}/users/check?dodin=${value}`)
                     .then((res) => res.json())
                     .then((res) => {
                         if (res > 0) {
@@ -121,9 +118,7 @@ const RegPage1 = (props) => {
                 setEmailError(true);
                 setEmailErrorText("Please enter a valid email.");
             } else {
-                await fetch(
-                    `${api.host}${api.path}/users/check?email=${value}`
-                )
+                await fetch(`${api.host}${api.path}/users/check?email=${value}`)
                     .then((res) => res.json())
                     .then((res) => {
                         if (res > 0) {
@@ -145,21 +140,23 @@ const RegPage1 = (props) => {
                 setPhoneErrorText(
                     "Please enter a valid, 10-digit phone number."
                 );
-                console.log("err")
+                console.log("err");
             } else {
                 setPhoneError(false);
                 setPhoneErrorText("");
-                console.log("no err")
+                console.log("no err");
             }
         }
     };
 
     return (
-        <div className={classes.root}>
-            <h3>Personal Information</h3>
+        <div>
+            <Typography variant="subtitle1">Personal Information</Typography>
 
             <TextField
                 required
+                fullWidth
+                margin="normal"
                 id="firstName"
                 name="firstName"
                 type="text"
@@ -176,6 +173,8 @@ const RegPage1 = (props) => {
             />
             <TextField
                 required
+                fullWidth
+                margin="normal"
                 id="lastName"
                 name="lastName"
                 type="text"
@@ -189,6 +188,8 @@ const RegPage1 = (props) => {
             />
             <TextField
                 required
+                fullWidth
+                margin="normal"
                 id="dodin"
                 name="dodin"
                 type="number"
@@ -210,6 +211,8 @@ const RegPage1 = (props) => {
             />
             <TextField
                 required
+                fullWidth
+                margin="normal"
                 id="email"
                 name="email"
                 type="email"
@@ -231,6 +234,8 @@ const RegPage1 = (props) => {
                 id="phone"
                 name="phone"
                 required
+                fullWidth
+                margin="normal"
                 label="Phone Number"
                 variant="outlined"
                 value={phone}
@@ -244,20 +249,27 @@ const RegPage1 = (props) => {
             >
                 {(inputProps) => <TextField {...inputProps} />}
             </InputMask>
-
-            <Button variant="contained" color="primary" onClick={goToPage2}>
-                Next
-            </Button>
+            <Grid container spacing={1}>
+                <Grid item xs={6}></Grid>
+                <Grid item xs={6}>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={goToPage2}
+                        fullWidth
+                        className={classes.button}
+                    >
+                        Next
+                    </Button>
+                </Grid>
+            </Grid>
         </div>
     );
 };
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        "& > *": {
-            margin: theme.spacing(1),
-            width: "25ch",
-        },
+    button: {
+        margin: theme.spacing(3, 0, 2),
     },
 }));
 

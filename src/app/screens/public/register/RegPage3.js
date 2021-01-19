@@ -1,7 +1,7 @@
 /* eslint-disable no-useless-escape */
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { TextField, Button } from "@material-ui/core";
+import { TextField, Button, Grid, Typography } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import useAPI from "../../../api/useAPI";
 
@@ -125,11 +125,13 @@ const RegPage3 = (props) => {
     };
 
     return (
-        <div className={classes.root}>
-            <h3>User Account</h3>
+        <div>
+            <Typography variant="subtitle1">User Account</Typography>
 
             <TextField
                 required
+                fullWidth
+                margin="normal"
                 id="username"
                 name="username"
                 type="text"
@@ -146,6 +148,8 @@ const RegPage3 = (props) => {
             />
             <TextField
                 required
+                fullWidth
+                margin="normal"
                 id="password"
                 name="password"
                 type="password"
@@ -159,6 +163,8 @@ const RegPage3 = (props) => {
             />
             <TextField
                 required
+                fullWidth
+                margin="normal"
                 id="passwordRepeat"
                 name="passwordRepeat"
                 type="password"
@@ -170,23 +176,37 @@ const RegPage3 = (props) => {
                 error={passwordRepeatError}
                 helperText={passwordRepeatErrorText}
             />
-
-            <Button variant="contained" color="primary" onClick={goToPage2}>
-                Previous
-            </Button>
-            <Button variant="contained" color="primary" onClick={submitForm}>
-                Submit
-            </Button>
+            <Grid container spacing={1}>
+                <Grid item xs={6}>
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={goToPage2}
+                        fullWidth
+                        className={classes.button}
+                    >
+                        Previous
+                    </Button>
+                </Grid>
+                <Grid item xs={6}>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={submitForm}
+                        fullWidth
+                        className={classes.button}
+                    >
+                        Register
+                    </Button>
+                </Grid>
+            </Grid>
         </div>
     );
 };
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        "& > *": {
-            margin: theme.spacing(1),
-            width: "25ch",
-        },
+    button: {
+        margin: theme.spacing(3, 0, 2),
     },
 }));
 

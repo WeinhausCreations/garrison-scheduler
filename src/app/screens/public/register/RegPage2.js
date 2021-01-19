@@ -8,9 +8,11 @@ import {
     InputLabel,
     Select,
     FormHelperText,
+    Typography
 } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import useAPI from "./../../../api/useAPI";
+import { Grid } from "@material-ui/core";
 
 const RegPage2 = (props) => {
     let history = useHistory();
@@ -100,12 +102,21 @@ const RegPage2 = (props) => {
         }
     };
 
-    const associationOptions = associationList.map(item => <option key={`association_${item.id}`} value={item.id}>{item.name}</option>)
+    const associationOptions = associationList.map((item) => (
+        <option key={`association_${item.id}`} value={item.id}>
+            {item.name}
+        </option>
+    ));
 
     return (
-        <div className={classes.root}>
-            <h3>Military Information</h3>
-            <FormControl variant="outlined" className={classes.formControl}>
+        <div>
+            <Typography variant="subtitle1">Military Information</Typography>
+            <FormControl
+                variant="outlined"
+                className={classes.formControl}
+                fullWidth
+                margin="normal"
+            >
                 <InputLabel htmlFor="association">Association</InputLabel>
                 <Select
                     native
@@ -132,6 +143,8 @@ const RegPage2 = (props) => {
             <TextField
                 required={!disabled}
                 disabled={disabled}
+                fullWidth
+                margin="normal"
                 id="unit"
                 name="unit"
                 type="text"
@@ -143,22 +156,37 @@ const RegPage2 = (props) => {
                 error={unitError}
                 helperText={unitErrorText}
             />
-            <Button variant="contained" color="primary" onClick={goToPage1}>
-                Previous
-            </Button>
-            <Button variant="contained" color="primary" onClick={goToPage3}>
-                Next
-            </Button>
+            <Grid container spacing={1}>
+                <Grid item xs={6}>
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={goToPage1}
+                        fullWidth
+                        className={classes.button}
+                    >
+                        Previous
+                    </Button>
+                </Grid>
+                <Grid item xs={6}>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={goToPage3}
+                        fullWidth
+                        className={classes.button}
+                    >
+                        Next
+                    </Button>
+                </Grid>
+            </Grid>
         </div>
     );
 };
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        "& > *": {
-            margin: theme.spacing(1),
-            width: "25ch",
-        },
+    button: {
+        margin: theme.spacing(3, 0, 2),
     },
 }));
 

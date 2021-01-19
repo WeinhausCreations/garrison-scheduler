@@ -10,7 +10,7 @@ const theme = createMuiTheme({
         h2: { fontSize: "1.75rem", margin: 12, fontWeight: 'bold', textAlign: 'center' },
         h3: { fontSize: "1.375rem", margin: 8, fontWeight: 'bold', textAlign: 'center'},
         h4: { fontSize: "1.125rem", margin: 8, fontWeight: 'bold', textAlign: 'center'},
-        subtitle1: { fontSize: "1.25rem", fontStyle: "italic" },
+        subtitle1: { fontSize: "1.25rem", fontStyle: "italic", textAlign: 'center'  },
         subtitle2: { fontSize: "1.125rem", fontStyle: "italic" },
         body1: { fontSize: "1rem" },
         body2: { fontSize: "0.875rem" },
