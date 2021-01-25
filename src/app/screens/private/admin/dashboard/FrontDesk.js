@@ -65,7 +65,10 @@ const FrontDesk = (props) => {
                         variant="outlined"
                         className={classes.formControl}
                     >
-                        <InputLabel htmlFor="select-section" shrink={section !== "0" ? true : false}>
+                        <InputLabel
+                            htmlFor="select-section"
+                            shrink={section !== "0" ? true : false}
+                        >
                             Select Section
                         </InputLabel>
                         <Select
@@ -83,15 +86,23 @@ const FrontDesk = (props) => {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={8}>
+                {/* <Grid item xs={8}>
                     {sessionStorage.getItem("sectionId") ? (
                         <OptionButtons
-                            sectionDetails={sectionList.filter(item => item.id === parseInt(section))}
+                            sectionDetails={sectionList.filter(
+                                (item) => item.id === parseInt(section)
+                            )}
                         />
                     ) : null}
-                </Grid>
+                </Grid> */}
                 <Grid item xs={12}>
-                    {sessionStorage.getItem("sectionId") ? <Display /> : null}
+                    {sessionStorage.getItem("sectionId") ? (
+                        <Display
+                            sectionDetails={sectionList.filter(
+                                (item) => item.id === parseInt(section)
+                            )}
+                        />
+                    ) : null}
                 </Grid>
             </Grid>
         </div>

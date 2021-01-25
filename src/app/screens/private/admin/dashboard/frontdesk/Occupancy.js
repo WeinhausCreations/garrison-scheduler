@@ -8,25 +8,13 @@ const Occupancy = (props) => {
     let classes = useStyles();
     const sectionId = sessionStorage.getItem("sectionId");
     const api = useAPI();
-    const current = props.checkedIn.length;
-    const [chartData, setChartData] = useState({ timeSlot: [], occupancy: [] });
-    useEffect(() => {
-        fetch(
-            `${api.host}${api.path}/dashboard/section/${sectionId}/occupancy/future`
-        )
-            .then((res) => res.json())
-            .then((res) => {
-                setChartData(res);
-                console.log(chartData);
-            });
-    }, []);
 
     const data = {
-        labels: chartData.timeSlot,
+        labels: props.chartData.timeSlot,
         datasets: [
             {
                 label: "Reservations",
-                data: chartData.occupancy,
+                data: props.chartData.occupancy,
                 fill: true,
                 backgroundColor: "rgb(152, 189, 211, 0.5)",
                 borderColor: "rgba(0, 90, 143, 1)",
@@ -49,7 +37,7 @@ const Occupancy = (props) => {
 
     return (
         <Container className={classes.occupancyContainer}>
-            <Typography variant="h3">Current Occupancy: {current}</Typography>
+            <Typography variant="h3">Expected Occupancy</Typography>
             <div className={classes.lineChart}>
                 <Line data={data} options={options} height={400} />
             </div>

@@ -110,15 +110,8 @@ const AddNewUserDialog = (props) => {
         fetch(`${api.host}${api.path}/dashboard/user/checkin`, options)
             .then((res) => res.json())
             .then((res) => {
-                const socket = socketIOClient(api.host);
-                socket.emit("reservation created", res, (response) => {
-                    if (response.status === "success"){
                         alert("User Created and Checked In.");
-                    } else {
-                        alert("something went wrong");
-                    }
-                });
-                socket.disconnect();
+                        props.getReservations();
                 props.handleClose();
             })
             .catch((res) => alert(res.message));

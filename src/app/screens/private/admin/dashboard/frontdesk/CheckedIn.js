@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
     Accordion,
     AccordionDetails,
@@ -17,14 +17,38 @@ import clsx from "clsx";
 const CheckedIn = (props) => {
     let classes = useStyles();
     const [expanded, setExpanded] = useState(false);
+    const [reservations, setReservations] = useState([]);
+    const [searchText, setSearchText] = useState("");
 
     const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
     };
 
+    const setReservationList = useCallback(async () => {
+        if (searchText !== "") {
+            setReservations(
+                props.reservations.filter((res) => res.first_name !== null &&
+                    (res.first_name + res.last_name)
+                        .toLowerCase()
+                        .includes(searchText.toLowerCase())
+                )
+            );
+        } else {
+            setReservations(props.reservations);
+        }
+    }, [searchText, props]);
+
+    useEffect(() => {
+        setReservationList();
+    }, [setReservationList]);
+
+    const handleSearch = (e) => {
+        setSearchText(e.target.value);
+    };
+
     // console.log(reservations)
     const currDTG = new Date();
-    const resList = props.reservations.map((res) => {
+    const resList = reservations.map((res) => {
         let overDue = false;
         const stopDTG = new Date(res.stop);
         const startDTG = new Date(res.start);
@@ -154,6 +178,10 @@ const CheckedIn = (props) => {
                         type="text"
                         label="Search"
                         variant="outlined"
+                        margin="dense"
+                        size="small"
+                        value={searchText}
+                        onChange={(e) => handleSearch(e)}
                         fullWidth
                     />
                 </Grid>
@@ -169,8 +197,8 @@ const useStyles = makeStyles((theme) => ({
     checkedInContainer: {
         height: 432,
         padding: 0,
-        overflowY: 'scroll',
-        overflowX: 'hidden'
+        overflowY: "auto",
+        overflowX: "hidden",
     },
     name: {
         fontWeight: "bold",
@@ -190,7 +218,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.error.light,
     },
     goodStatusBackground: {
-        backgroundColor: theme.palette.success.light,
+        // backgroundColor: theme.palette.success.light,
     },
 }));
 

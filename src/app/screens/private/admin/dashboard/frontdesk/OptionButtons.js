@@ -58,8 +58,10 @@ const OptionButtons = (props) => {
                 <Grid item>
                     <Button
                         variant="contained"
-                        className={classes.button}
+                        // className={classes.button}
                         onClick={handleOpenNewUser}
+                        color="primary"
+                        fullWidth
                     >
                         Add New User
                     </Button>
@@ -69,6 +71,8 @@ const OptionButtons = (props) => {
                         variant="contained"
                         className={classes.button}
                         onClick={handleOpenLookupUser}
+                        color="primary"
+                        // fullWidth
                     >
                         Lookup User
                     </Button>
@@ -85,7 +89,7 @@ const OptionButtons = (props) => {
 
 const useStyles = makeStyles((theme) => ({
     button: {
-        minWidth: 150,
+        width: '100%',
     },
 }));
 
