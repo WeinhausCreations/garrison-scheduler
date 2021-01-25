@@ -31,6 +31,12 @@ const FrontDesk = (props) => {
     };
 
     useEffect(() => {
+        if (sessionStorage.getItem("sectionId") > 0) {
+            setSection(sessionStorage.getItem("sectionId").toString());
+        }
+    }, []);
+
+    useEffect(() => {
         fetch(`${api.host}${api.path}/dashboard/service/${serviceId}/frontdesk`)
             .then((res) => res.json())
             .then((res) => {
@@ -59,7 +65,7 @@ const FrontDesk = (props) => {
                         variant="outlined"
                         className={classes.formControl}
                     >
-                        <InputLabel htmlFor="select-section">
+                        <InputLabel htmlFor="select-section" shrink={section !== "0" ? true : false}>
                             Select Section
                         </InputLabel>
                         <Select
@@ -79,7 +85,9 @@ const FrontDesk = (props) => {
                 </Grid>
                 <Grid item xs={8}>
                     {sessionStorage.getItem("sectionId") ? (
-                        <OptionButtons />
+                        <OptionButtons
+                            sectionDetails={sectionList.filter(item => item.id === parseInt(section))}
+                        />
                     ) : null}
                 </Grid>
                 <Grid item xs={12}>
@@ -93,7 +101,7 @@ const FrontDesk = (props) => {
 const useStyles = makeStyles((theme) => ({
     formControl: {
         margin: theme.spacing(1),
-        width: '85%'
+        width: "85%",
     },
     selectEmpty: {
         marginTop: theme.spacing(2),

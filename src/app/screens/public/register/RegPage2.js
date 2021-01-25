@@ -8,7 +8,7 @@ import {
     InputLabel,
     Select,
     FormHelperText,
-    Typography
+    Typography,
 } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import useAPI from "./../../../api/useAPI";
@@ -150,6 +150,7 @@ const RegPage2 = (props) => {
                 type="text"
                 label="Unit"
                 variant="outlined"
+                maxLength={50}
                 value={unit}
                 onChange={(e) => setUnit(e.target.value)}
                 onBlur={validate}

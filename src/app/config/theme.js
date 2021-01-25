@@ -2,7 +2,60 @@ import { createMuiTheme } from "@material-ui/core/styles";
 
 const theme = createMuiTheme({
     palette: {
-        primary: { 500: "#274059" },
+        primary: {
+            light: "#649cbd",
+            main: "#005a8f",
+            dark: "#003655",
+        },
+        secondary: {
+            light: "#92cbff",
+            main: "#4dacff",
+            dark: "#2b659b",
+        },
+        tertiary: {
+            light: "#7e8c9b",
+            main: "#274059",
+            dark: "#172635",
+        },
+        quaternary: {
+            light: "#e1e6ef",
+            main: "#ced6e4",
+            dark: "#7b8089",
+        },
+        error: {
+            light: "#ff3838",
+            main: "#ff3838",
+            dark: "#ff3838",
+        },
+        success: {
+            light: "#56f000",
+            main: "#56f000",
+            dark: "#4caf50",
+        },
+        tag1: {
+            light: "#70dde0",
+            main: "#00c7cb",
+            dark: "#00777a",
+        },
+        tag2: {
+            light: "#aea8e5",
+            main: "#786dd3",
+            dark: "#48417f",
+        },
+        tag3: {
+            light: "#c76ada",
+            main: "#a200c1",
+            dark: "#610074",
+        },
+        tag4: {
+            light: "#ea9875",
+            main: "#da5309",
+            dark: "#833209",
+        },
+        background: {
+            default: '#e1e6ef',
+            paper: '#f5f6f9'
+        }
     },
     typography: {
         fontFamily: ["Open Sans"],

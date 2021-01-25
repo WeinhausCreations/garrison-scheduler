@@ -162,6 +162,7 @@ const RegPage1 = (props) => {
                 type="text"
                 label="First Name"
                 variant="outlined"
+                maxLength={50}
                 value={firstName}
                 onChange={(e) => {
                     setFirstName(e.target.value);
@@ -180,6 +181,7 @@ const RegPage1 = (props) => {
                 type="text"
                 label="Last Name"
                 variant="outlined"
+                maxLength={50}
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
                 onBlur={validate}
@@ -218,6 +220,7 @@ const RegPage1 = (props) => {
                 type="email"
                 label="Email"
                 variant="outlined"
+                maxLength={50}
                 value={email}
                 onChange={(e) => {
                     setEmail(e.target.value);

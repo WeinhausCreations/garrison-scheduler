@@ -154,6 +154,7 @@ const CheckedIn = (props) => {
                         type="text"
                         label="Search"
                         variant="outlined"
+                        fullWidth
                     />
                 </Grid>
                 <Grid item xs={12}>
@@ -168,6 +169,8 @@ const useStyles = makeStyles((theme) => ({
     checkedInContainer: {
         height: 432,
         padding: 0,
+        overflowY: 'scroll',
+        overflowX: 'hidden'
     },
     name: {
         fontWeight: "bold",

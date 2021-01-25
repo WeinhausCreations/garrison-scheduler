@@ -134,20 +134,19 @@ const Upcoming = (props) => {
         <Container className={classes.upcomingContainer}>
             <Grid container spacing={1}>
                 <Grid item xs={5}>
-
-            <Typography variant="h3">Upcoming</Typography>
+                    <Typography variant="h3">Upcoming</Typography>
                 </Grid>
                 <Grid item xs={7}>
-                <TextField
-                    id="checkedInSearch"
-                    type="text"
-                    label="Search"
-                    variant="outlined"
-                />
-
+                    <TextField
+                        id="checkedInSearch"
+                        type="text"
+                        label="Search"
+                        variant="outlined"
+                        fullWidth
+                    />
                 </Grid>
                 <Grid item xs={12}>
-                {resList}
+                    {resList}
                 </Grid>
             </Grid>
         </Container>

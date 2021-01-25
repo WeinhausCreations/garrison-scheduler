@@ -11,9 +11,9 @@ import {
     TextField,
 } from "@material-ui/core";
 import useAPI from "./../../../../../api/useAPI";
-import AddNewUserDialog from './AddNewUserDialog';
+import AddNewUserDialog from "./AddNewUserDialog";
 
-const OptionButtons = () => {
+const OptionButtons = (props) => {
     const api = useAPI();
     const classes = useStyles();
     const [dialogBox, setDialogBox] = useState({
@@ -50,10 +50,7 @@ const OptionButtons = () => {
         setDialogBox({ newUser: false, userLookup: false });
     };
 
-    
-    const checkInUser = (userId, start, lastName) => {
-        
-    }
+    const checkInUser = (userId, start, lastName) => {};
 
     return (
         <div>
@@ -77,7 +74,11 @@ const OptionButtons = () => {
                     </Button>
                 </Grid>
             </Grid>
-            <AddNewUserDialog handleClose={handleClose} open={dialogBox.newUser} />
+            <AddNewUserDialog
+                handleClose={handleClose}
+                open={dialogBox.newUser}
+                sectionDetails={props.sectionDetails}
+            />
         </div>
     );
 };

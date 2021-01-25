@@ -18,6 +18,7 @@ import {
 import InputMask from "react-input-mask";
 import useAPI from "../../../../../api/useAPI";
 import useAuth from "./../../../../../auth/useAuth";
+import socketIOClient from "socket.io-client";
 
 const AddNewUserDialog = (props) => {
     const api = useAPI();
@@ -54,7 +55,7 @@ const AddNewUserDialog = (props) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const register = () => {
+    const register = async (cb) => {
         if (
             !firstNameError &&
             !lastNameError &&
@@ -68,15 +69,14 @@ const AddNewUserDialog = (props) => {
             dodin &&
             email &&
             phone &&
-            association &&
-            unit
+            association
         ) {
             const body = {
                 firstName: firstName,
                 lastName: lastName,
                 dodin: dodin,
                 email: email,
-                phone: phone,
+                phone: parseInt(phone.replaceAll(/[\+\(\)-\s]/g, "")),
                 associationId: association,
                 unit: unit,
                 updatedUserId: auth.user,
@@ -86,19 +86,60 @@ const AddNewUserDialog = (props) => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body),
             };
-            fetch(`${api.host}${api.path}/user/`, options)
+            fetch(`${api.host}${api.path}/users/`, options)
                 .then((res) => res.json())
                 .then((res) => {
-                    alert("User created.")
-                    return(res)
+                    cb(res);
                 })
-                .catch((res) => alert(res.message))
+                .catch((res) => alert(res.message));
+        } else {
+            alert("Please ensure all fields are filled in properly.");
         }
     };
 
-    const checkInUser = () => {
+    const checkIn = async (newId) => {
+        const body = {
+            userId: newId,
+            sectionId: sessionStorage.getItem("sectionId"),
+        };
+        const options = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+        };
+        fetch(`${api.host}${api.path}/dashboard/user/checkin`, options)
+            .then((res) => res.json())
+            .then((res) => {
+                const socket = socketIOClient(api.host);
+                socket.emit("reservation created", res, (response) => {
+                    if (response.status === "success"){
+                        alert("User Created and Checked In.");
+                    } else {
+                        alert("something went wrong");
+                    }
+                });
+                socket.disconnect();
+                props.handleClose();
+            })
+            .catch((res) => alert(res.message));
+    };
 
-    }
+    const registerNewUser = async () => {
+        register((newId) => {
+            if (newId > 0) {
+                alert("User Created");
+                props.handleClose();
+            }
+        });
+    };
+
+    const checkInNewUser = async () => {
+        register((newId) => {
+            if (newId > 0) {
+                checkIn(newId);
+            }
+        });
+    };
 
     const validate = async (e) => {
         const { name, value } = e.target;
@@ -277,6 +318,7 @@ const AddNewUserDialog = (props) => {
                             type="text"
                             label="First Name"
                             variant="outlined"
+                            maxLength={50}
                             value={firstName}
                             onChange={(e) => {
                                 setFirstName(e.target.value);
@@ -296,6 +338,7 @@ const AddNewUserDialog = (props) => {
                             type="text"
                             label="Last Name"
                             variant="outlined"
+                            maxLength={50}
                             value={lastName}
                             onChange={(e) => setLastName(e.target.value)}
                             onBlur={validate}
@@ -312,6 +355,7 @@ const AddNewUserDialog = (props) => {
                             type="email"
                             label="Email"
                             variant="outlined"
+                            maxLength={50}
                             value={email}
                             onChange={(e) => {
                                 setEmail(e.target.value);
@@ -388,6 +432,7 @@ const AddNewUserDialog = (props) => {
                             type="text"
                             label="Unit"
                             variant="outlined"
+                            maxLength={50}
                             value={unit}
                             onChange={(e) => setUnit(e.target.value)}
                             onBlur={validate}
@@ -402,14 +447,14 @@ const AddNewUserDialog = (props) => {
                     Cancel
                 </Button>
                 <Button
-                    onClick={props.handleClose}
                     variant="contained"
                     color="primary"
+                    onClick={registerNewUser}
                 >
                     Add
                 </Button>
                 <Button
-                    onClick={props.handleClose}
+                    onClick={checkInNewUser}
                     variant="contained"
                     color="primary"
                 >

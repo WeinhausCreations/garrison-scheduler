@@ -86,7 +86,7 @@ const Navigation = () => {
             </Tooltip>
         </div>
     );
-    const login = <Button onClick={routeLogin}>Login</Button>;
+    const login = <Button onClick={routeLogin} variant="contained" color="primary">Login</Button>;
 
     const adminNav = (
         <List>
@@ -215,6 +215,7 @@ const useStyles = makeStyles((theme) => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
+        backgroundColor: theme.palette.tertiary.main,
     },
     appBarShift: {
         width: `calc(100% - ${drawerWidth}px)`,

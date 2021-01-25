@@ -1,12 +1,13 @@
 import CheckedIn from "./CheckedIn";
 import socketIOClient from "socket.io-client";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import useAPI from "./../../../../../api/useAPI";
 import Upcoming from "./Upcoming";
 import Occupancy from "./Occupancy";
 import { isToday } from "./../../../../../functions";
 import { Container as div, Grid, Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { startPolling } from './../../../../../functions/polling';
 
 const Display = (props) => {
     const classes = useStyles();
@@ -20,22 +21,43 @@ const Display = (props) => {
         upcoming: [],
     });
 
-    useEffect(() => {
-        const socket = socketIOClient(api.host);
-        socket.on("reservations update", (data) => {
-            data = data.filter(
-                (item) => item.section_id === parseInt(sectionId)
-            );
-            setState({
-                todayRes: data.filter((res) => isToday(new Date(res.start))),
-                checkedIn: data.filter(
-                    (res) => res.checked_out === null && res.checked_in
-                ),
-                upcoming: data.filter((res) => res.checked_in === null),
+    const getReservations = useCallback(async () => {
+        fetch(`${api.host}${api.path}/dashboard/section/${sectionId}/current`)
+            .then((res) => res.json())
+            .then((res) => {
+                setState({
+                    todayRes: res.filter((item) =>
+                        isToday(new Date(item.start))
+                    ),
+                    checkedIn: res.filter(
+                        (item) => item.checked_out === null && item.checked_in
+                    ),
+                    upcoming: res.filter((item) => item.checked_in === null),
+                });
             });
-        });
-        return () => socket.disconnect();
-    }, [api, sectionId]);
+    }, []);
+
+    useEffect(() => {
+        getReservations();
+        return startPolling(getReservations, 30000);
+    },[getReservations])
+
+    // useEffect(() => {
+    //     const socket = socketIOClient(api.host);
+    //     socket.on("reservations update", (data) => {
+    //         data = data.filter(
+    //             (item) => item.section_id === parseInt(sectionId)
+    //         );
+    //         setState({
+    //             todayRes: data.filter((res) => isToday(new Date(res.start))),
+    //             checkedIn: data.filter(
+    //                 (res) => res.checked_out === null && res.checked_in
+    //             ),
+    //             upcoming: data.filter((res) => res.checked_in === null),
+    //         });
+    //     });
+    //     return () => socket.disconnect();
+    // }, [api, sectionId]);
 
     return (
         <div className={classes.root}>
@@ -66,7 +88,7 @@ const Display = (props) => {
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
-        padding: theme.spacing(2)
+        padding: theme.spacing(2),
     },
     paper: {
         padding: theme.spacing(2),
